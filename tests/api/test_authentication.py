@@ -4,8 +4,8 @@ import allure
 import pytest
 
 from src.api.authentication.authentication_client import AuthenticationClient
+from src.fixtures.users import FixtureUserSchema
 from src.schemas.authentication import LoginResponseSchema
-from tests.conftest import FixtureUserSchema
 
 
 @pytest.mark.smoke

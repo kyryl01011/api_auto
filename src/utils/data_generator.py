@@ -14,4 +14,4 @@ class DataGenerator:
 
     @staticmethod
     def generate_name():
-        return fake.name()
+        return fake.first_name()

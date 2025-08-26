@@ -1,6 +1,7 @@
 from http import HTTPMethod
 
 from src.api.basic_client import BasicClient
+from src.api.get_basic_client import get_public_basic_client
 from src.enums.api_routes import ApiRoutes
 from src.schemas.users import CreateUserRequestSchema, GetUserResponseSchema
 
@@ -12,5 +13,5 @@ class PublicUserClient(BasicClient):
 
     @classmethod
     def get_public_user_client(cls) -> 'PublicUserClient':
-        public_client = cls.get_public_basic_client()
+        public_client = get_public_basic_client()
         return cls(public_client)

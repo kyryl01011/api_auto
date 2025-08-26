@@ -9,4 +9,4 @@ class ApiRoutes(Enum):
     USER_GET_BY_ID = lambda user_id: f'/api/v1/users/{user_id}'
     USER_UPDATE = lambda user_id: f'/api/v1/users/{user_id}'
     USER_DELETE = lambda user_id: f'/api/v1/users/{user_id}'
-    USER_CREATE = '/api/v1/users'
+    USER_CREATE = '/users'
