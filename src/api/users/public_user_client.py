@@ -1,17 +1,24 @@
+from typing import Self
 from http import HTTPMethod
 
+from httpx import Response
+
 from src.api.basic_client import BasicClient
-from src.api.get_basic_client import get_public_basic_client
+from src.api.public_client_builder import get_public_basic_client
 from src.enums.api_routes import ApiRoutes
 from src.schemas.users import CreateUserRequestSchema, GetUserResponseSchema
 
 
 class PublicUserClient(BasicClient):
+    def create_user_api(self, user: CreateUserRequestSchema) -> Response:
+        resp = self.send_request(HTTPMethod.POST, ApiRoutes.USER_CREATE.value, json=user)
+        return resp
+
     def create_user(self, user: CreateUserRequestSchema) -> GetUserResponseSchema:
-        resp = self.client.request(HTTPMethod.POST, ApiRoutes.USER_CREATE.value, json=user.model_dump())
+        resp = self.create_user_api(user)
         return GetUserResponseSchema(**resp.json())
 
-    @classmethod
-    def get_public_user_client(cls) -> 'PublicUserClient':
-        public_client = get_public_basic_client()
-        return cls(public_client)
+
+def get_public_user_client() -> PublicUserClient:
+    public_client = get_public_basic_client()
+    return PublicUserClient(public_client)

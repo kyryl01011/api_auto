@@ -1,20 +1,39 @@
 import pytest
-from httpx import Client
 
-from src.api.get_basic_client import get_public_basic_client, get_private_basic_client
-from src.api.users.public_user_client import PublicUserClient
+from src.api.authentication.authentication_client import get_authentication_client
+from src.api.files.files_client import FilesClient, get_files_client
+from src.api.public_client_builder import get_public_basic_client
+from src.api.private_client_builder import get_private_basic_client
+from src.api.users.private_user_client import get_private_user_client
+from src.api.users.public_user_client import get_public_user_client
+from src.fixtures.users import UserFixtureSchema
 
 
 @pytest.fixture
-def public_basic_client() -> Client:
+def public_client():
     return get_public_basic_client()
 
 
 @pytest.fixture
-def public_user_client() -> PublicUserClient:
-    return PublicUserClient.get_public_user_client()
+def authentication_client():
+    return get_authentication_client()
 
 
 @pytest.fixture
-def private_basic_client() -> Client:
-    return get_private_basic_client()
+def private_client(function_user: UserFixtureSchema):
+    return get_private_basic_client(function_user.user_creds)
+
+
+@pytest.fixture
+def public_users_client():
+    return get_public_user_client()
+
+
+@pytest.fixture
+def private_users_client(function_user: UserFixtureSchema):
+    return get_private_user_client(function_user.user_creds)
+
+
+@pytest.fixture
+def files_client(function_user: UserFixtureSchema) -> FilesClient:
+    return get_files_client(function_user.user_creds)

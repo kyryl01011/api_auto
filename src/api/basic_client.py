@@ -1,11 +1,12 @@
+import logging
 from http import HTTPMethod
-from typing import IO
 
 import allure
-from pydantic import HttpUrl, BaseModel
+from pydantic import BaseModel
 
 from httpx import Client, Response, QueryParams
 
+from httpx._types import RequestFiles, RequestData
 
 
 class BasicClient:
@@ -15,16 +16,36 @@ class BasicClient:
     def send_request(
             self,
             method: HTTPMethod,
-            url: HttpUrl | str,
+            endpoint: str,
             params: QueryParams | None = None,
             json: dict | BaseModel | None = None,
-            data: str | None = None,
-            files: dict[str, tuple[str, IO[bytes]]] | None = None
+            data: RequestData | None = None,
+            files: RequestFiles | None = None,
+            headers: dict | None = None,
     ) -> Response:
-        with allure.step(f'Send {method} request to {url}: \n'
+        with allure.step(f'Send {method} request to {endpoint}: \n'
                          f'Queries: {params}\n'
                          f'JSON: {json}\n'
-                         f'Data: {data}\n'
-                         f'Files: {files}'):
-            resp = self.client.request(method, url, params=params, json=json, data=data, files=files)
+                         f'Data: {data}\n'):
+            url = str(self.client.base_url).strip('/') + endpoint
+            if isinstance(json, BaseModel):
+                json = json.model_dump(by_alias=True)
+
+            resp = self.client.request(
+                method=method,
+                url=url,
+                data=data,
+                files=files,
+                json=json,
+                params=params,
+                headers=headers,
+            )
+
+            print('[REQUEST] ', resp.request.url)
+            print('[REQUEST-data] ', data)
+            print('[REQUEST] ', resp.request.method)
+            print('[REQUEST] ', resp.request.headers)
+            print('[RESPONSE] ', resp.status_code)
+            print('[RESPONSE] ', resp.json())
+
             return resp

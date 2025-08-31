@@ -1,17 +1,21 @@
 from faker import Faker
 
-fake = Faker()
-
 
 class DataGenerator:
-    @staticmethod
-    def generate_email():
-        return fake.email(safe=True)
+    def __init__(self, fake: Faker):
+        self.fake = fake
 
-    @staticmethod
-    def generate_random_line(length: int = 10, special_chars: bool = False):
-        return fake.password(length=length, special_chars=special_chars)
+    def generate_email(self):
+        return self.fake.email()
 
-    @staticmethod
-    def generate_name():
-        return fake.first_name()
+    def generate_random_line(self, length: int = 10, special_chars: bool = False):
+        return self.fake.password(length=length, special_chars=special_chars)
+
+    def generate_name(self):
+        return self.fake.first_name()
+
+    def uuid(self):
+        return self.fake.uuid4()
+
+
+data_generator = DataGenerator(Faker())
