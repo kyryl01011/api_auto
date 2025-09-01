@@ -3,4 +3,5 @@ pytest_plugins = (
     'src.fixtures.clients',
     'src.fixtures.api_manager',
     'src.fixtures.files',
+    'src.fixtures.courses',
 )

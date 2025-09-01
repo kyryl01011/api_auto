@@ -17,7 +17,7 @@ class BasicClient:
             self,
             method: HTTPMethod,
             endpoint: str,
-            params: QueryParams | None = None,
+            params: QueryParams | dict | None = None,
             json: dict | BaseModel | None = None,
             data: RequestData | None = None,
             files: RequestFiles | None = None,

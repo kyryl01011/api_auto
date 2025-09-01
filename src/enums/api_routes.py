@@ -22,3 +22,9 @@ class ApiRoutes(Enum):
     FILE_GET_VIEW = DynamicRoutes('/files/{}')
     FILE_DELETE_VIEW = DynamicRoutes('/files/{}')
     FILE_CREATE_VIEW = '/files'
+
+    COURSES_CREATE = '/courses'
+    COURSES_GET_ALL = '/courses'
+    COURSES_GET_BY_ID = DynamicRoutes('/courses/{}')
+    COURSES_UPDATE_BY_ID = DynamicRoutes('/courses/{}')
+    COURSES_DELETE_BY_ID = DynamicRoutes('/courses/{}')
