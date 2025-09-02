@@ -28,3 +28,9 @@ class ApiRoutes(Enum):
     COURSES_GET_BY_ID = DynamicRoutes('/courses/{}')
     COURSES_UPDATE_BY_ID = DynamicRoutes('/courses/{}')
     COURSES_DELETE_BY_ID = DynamicRoutes('/courses/{}')
+
+    EXERCISES_CREATE = '/exercises'
+    EXERCISES_GET_ALL = '/exercises'
+    EXERCISES_GET_BY_ID = DynamicRoutes('/exercises/{}')
+    EXERCISES_UPDATE_BY_ID = DynamicRoutes('/exercises/{}')
+    EXERCISES_DELETE_BY_ID = DynamicRoutes('/exercises/{}')

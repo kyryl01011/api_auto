@@ -1,3 +1,5 @@
+from typing import ClassVar, Any
+
 from pydantic import BaseModel, HttpUrl, Field
 
 from src.utils.data_generator import data_generator
@@ -17,4 +19,9 @@ class FileSchema(BaseModel):
 
 
 class GetFileResponseSchema(BaseModel):
+    all_files: ClassVar[list[FileSchema]] = []
+
     file: FileSchema
+
+    def model_post_init(self, context: Any, /) -> None:
+        self.all_files.append(self.file)

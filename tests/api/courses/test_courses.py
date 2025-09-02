@@ -24,7 +24,7 @@ class TestCourses:
             createdByUserId=function_user.response.user.id,
             previewFileId=function_file.response.file.id
         )
-        response = courses_client.create_course(request)
+        response = courses_client.create(request)
         response_model = GetCourseResponseSchema.model_validate_json(response.text)
 
         assert response.status_code == HTTPStatus.OK
@@ -36,7 +36,7 @@ class TestCourses:
         assert response.status_code == HTTPStatus.OK
 
     def test_get_course_by_id(self, courses_client: CoursesClient, function_course: CourseFixtureSchema):
-        response = courses_client.get_course_by_id(function_course.response.course.id)
+        response = courses_client.get(function_course.response.course.id)
         response_model = GetCourseResponseSchema.model_validate_json(response.text)
 
         assert response.status_code == HTTPStatus.OK
@@ -60,15 +60,15 @@ class TestCourses:
             createdByUserId=function_user.response.user.id,
             previewFileId=function_file.response.file.id
         ).model_copy(update=update_fields)
-        response = courses_client.update_course_by_id(function_course.response.course.id, request)
+        response = courses_client.update(function_course.response.course.id, request)
         response_model = GetCourseResponseSchema.model_validate_json(response.text)
 
         assert response.status_code == HTTPStatus.OK
         assert response_model.course.title == request.title
 
     def test_delete_course_by_id(self, courses_client: CoursesClient, function_course: CourseFixtureSchema):
-        response = courses_client.delete_course_by_id(function_course.response.course.id)
-        second_response = courses_client.delete_course_by_id(function_course.response.course.id)
+        response = courses_client.delete(function_course.response.course.id)
+        second_response = courses_client.delete(function_course.response.course.id)
 
         assert response.status_code == HTTPStatus.OK
         assert second_response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.NOT_FOUND)

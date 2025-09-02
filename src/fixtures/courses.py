@@ -1,5 +1,5 @@
 import pytest
-from pydantic import BaseModel, UUID4
+from pydantic import BaseModel
 
 from src.api.courses.courses_client import CoursesClient
 from src.api.courses.courses_schema import CreateCourseRequestSchema, GetCourseResponseSchema
@@ -12,7 +12,7 @@ class CourseFixtureSchema(BaseModel):
     response: GetCourseResponseSchema
 
     @property
-    def course_id(self) -> UUID4:
+    def course_id(self) -> str:
         return self.response.course.id
 
 
@@ -25,7 +25,7 @@ def function_course(
         createdByUserId=function_user.response.user.id,
         previewFileId=function_file.response.file.id
     )
-    response = courses_client.create_course(request)
+    response = courses_client.create(request)
     response_model = GetCourseResponseSchema.model_validate_json(response.text)
     return CourseFixtureSchema(
         request=request,

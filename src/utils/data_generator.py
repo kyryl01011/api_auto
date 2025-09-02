@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from faker import Faker
 
 
@@ -16,6 +18,15 @@ class DataGenerator:
 
     def uuid(self):
         return self.fake.uuid4()
+
+    def generate_estimated_time(self):
+        return self.fake.date(end_datetime=datetime.today())
+
+    def generate_min_score(self):
+        return self.fake.random_int(min=1, max=50)
+
+    def generate_max_score(self):
+        return self.fake.random_int(min=51, max=100)
 
 
 data_generator = DataGenerator(Faker())

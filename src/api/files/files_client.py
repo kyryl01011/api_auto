@@ -11,15 +11,15 @@ from src.schemas.users import LoginRequestSchema
 
 
 class FilesClient(BasicClient):
-    def get_file(self, file_id: str):
+    def get(self, file_id: str):
         resp = self.send_request(HTTPMethod.GET, ApiRoutes.FILE_GET_VIEW.value(file_id))
         return resp
 
-    def delete_file(self, file_id: str):
+    def delete(self, file_id: str):
         resp = self.send_request(HTTPMethod.DELETE, ApiRoutes.FILE_DELETE_VIEW.value(file_id))
         return resp
 
-    def create_file(self, request: CreateFileRequestSchema):
+    def create(self, request: CreateFileRequestSchema):
         with open(request.upload_file, 'rb') as file:
             resp = self.send_request(
                 HTTPMethod.POST,

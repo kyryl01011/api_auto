@@ -19,7 +19,7 @@ def function_file(files_client: FilesClient) -> FileFixtureSchema:
         directory='test_dir',
         upload_file='./src/testdata/files/test.jpg'
     )
-    response: Response = files_client.create_file(create_file_request)
+    response: Response = files_client.create(create_file_request)
     create_file_response = GetFileResponseSchema.model_validate_json(response.text)
     return FileFixtureSchema(
         request=create_file_request,

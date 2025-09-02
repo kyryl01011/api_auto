@@ -42,10 +42,10 @@ class BasicClient:
             )
 
             print('[REQUEST] ', resp.request.url)
-            print('[REQUEST-data] ', data)
             print('[REQUEST] ', resp.request.method)
             print('[REQUEST] ', resp.request.headers)
+            print('[REQUEST] ', resp.request.read())
             print('[RESPONSE] ', resp.status_code)
-            print('[RESPONSE] ', resp.json())
+            print('[RESPONSE] ', resp.text)
 
             return resp
