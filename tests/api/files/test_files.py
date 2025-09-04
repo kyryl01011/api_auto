@@ -1,13 +1,18 @@
 from http import HTTPStatus
 
+import allure
 import pytest
 
 from src.api.files.files_client import FilesClient
 from src.api.files.files_schema import CreateFileRequestSchema, GetFileResponseSchema
 from src.fixtures.files import FileFixtureSchema
+from src.utils.allure_enums.allure_epics import AllureEpics
+from src.utils.allure_enums.allure_features import AllureFeatures
 from src.utils.data_generator import data_generator
 
 
+@allure.epic(AllureEpics.LMS)
+@allure.feature(AllureFeatures.FILES)
 @pytest.mark.files
 @pytest.mark.regression
 class TestFiles:
@@ -19,6 +24,7 @@ class TestFiles:
                 ('./src/testdata/files/test.jpg'),
         )
     )
+    @allure.title('Create file')
     def test_create_file(self, files_client: FilesClient, file_path: str):
         file_extension = [name for name in file_path.split('/')][-1].split('.')[-1]
         request = CreateFileRequestSchema(
@@ -30,6 +36,7 @@ class TestFiles:
         assert response.status_code == HTTPStatus.OK
         assert response_model.file.filename == request.filename
 
+    @allure.title('Get file')
     def test_get_file(self, files_client: FilesClient, function_file: FileFixtureSchema):
         response = files_client.get(function_file.response.file.id)
         response_model = GetFileResponseSchema.model_validate_json(response.text)
@@ -37,6 +44,7 @@ class TestFiles:
         assert response.status_code == HTTPStatus.OK
         assert response_model.file.filename == function_file.request.filename
 
+    @allure.title('Delete file')
     def test_delete_file(self, files_client: FilesClient, function_file: FileFixtureSchema):
         response = files_client.delete(function_file.response.file.id)
 

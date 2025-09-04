@@ -1,6 +1,7 @@
 from typing import Self
 from http import HTTPMethod
 
+import allure
 from httpx import Response
 
 from src.api.basic_client import BasicClient
@@ -10,6 +11,7 @@ from src.schemas.users import CreateUserRequestSchema, GetUserResponseSchema
 
 
 class PublicUserClient(BasicClient):
+    @allure.step("Create user")
     def create_user_api(self, user: CreateUserRequestSchema) -> Response:
         resp = self.send_request(HTTPMethod.POST, ApiRoutes.USER_CREATE.value, json=user)
         return resp
