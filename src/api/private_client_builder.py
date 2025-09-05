@@ -5,6 +5,7 @@ from src.schemas.authentication import LoginResponseSchema
 from src.schemas.users import LoginRequestSchema
 from src.api.authentication.authentication_client import get_authentication_client
 from src.utils.event_hooks.curl_event_hook import curl_event_hook
+from src.utils.event_hooks.http_hooks import http_request_hook, http_response_hook
 
 
 def get_private_basic_client(user_creds: LoginRequestSchema, no_curl: bool = False) -> Client:
@@ -15,5 +16,6 @@ def get_private_basic_client(user_creds: LoginRequestSchema, no_curl: bool = Fal
         base_url=settings.client_url,
         timeout=settings.timeout,
         headers={'Authorization': f'Bearer {user_login_response.token.access_token}'},
-        event_hooks={'request': [curl_event_hook]}
+        event_hooks={'request': [curl_event_hook, http_request_hook],
+                     'response': [http_response_hook]}
     )

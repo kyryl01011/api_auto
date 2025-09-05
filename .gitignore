@@ -5,6 +5,7 @@ build/
 dist/
 wheels/
 *.egg-info
+allure-results
 
 # Virtual environments
 .venv
